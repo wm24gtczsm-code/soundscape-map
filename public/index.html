@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- 自分のJS -->
+    <link rel="stylesheet" href="style.css">
+
+
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <div id="upload-ui">
+        <h2>音をアップロード</h2>
+
+        <div class="upload-step" id="step-file">
+            <p>1. MP3ファイルを選択してください</p>
+            <input type="file" id="audioInput" accept="audio/*">
+        </div>
+
+        <div class="upload-step" id="step-date">
+            <p>2. 録音日を選択してください</p>
+            <input type="datetime-local" id="recordedAtInput">
+            <button id="dateNextButton">次へ</button>
+        </div>
+
+        <div class="upload-step" id="step-user">
+            <p>3. ユーザー名を記入してください</p>
+            <input type="text" id="userNameInput" value="名無しさん">
+            <button id="userNextButton">次へ</button>
+        </div>
+
+        <div class="upload-step" id="step-text">
+            <p>4. コメントを書いてください</p>
+            <input type="text" id="soundTextInput" placeholder="キャプション">
+        </div>
+
+        <p id="upload-status">
+            MP3ファイルを選択してください
+        </p>
+    </div>
+
+
+    <!--Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- 自分のJS -->
+    <script src="app.js"></script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
