@@ -519,6 +519,8 @@ audioInput.addEventListener("change", (e) => {
   uploadStatus.textContent = "音声ファイルを選択しました。次へ進んでください。";
 });
 
+console.log(fileNextButton);
+
 fileNextButton.addEventListener("click", () => {
   if (!selectedAudioFile) {
     uploadStatus.textContent = "先に音声ファイルを選択してください。";
