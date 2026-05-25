@@ -507,16 +507,45 @@ showStep(stepFile);
 
 
 
-audioInput.addEventListener("change", () => {
-  selectedAudioFile = audioInput.files[0];
+audioInput.addEventListener("change", (e) => {
 
-  if (!selectedAudioFile) return;
+  const file = e.target.files[0];
+
+  if (!file) {
+    uploadStatus.textContent =
+      "音声ファイルを選択してください。";
+    return;
+  }
+
+  // スマホ用に緩めの音声判定
+  const fileName = file.name.toLowerCase();
+
+  const isAudio =
+    (file.type && file.type.startsWith("audio/")) ||
+    fileName.endsWith(".mp3") ||
+    fileName.endsWith(".m4a") ||
+    fileName.endsWith(".wav");
+
+  if (!isAudio) {
+    uploadStatus.textContent =
+      "音声ファイルを選択してください。";
+
+    alert(
+      `選択されたファイル:\n${file.name}\nタイプ:${file.type}`
+    );
+
+    return;
+  }
+
+  selectedAudioFile = file;
 
   uploadStatus.textContent =
     "録音日を選択してください。";
 
   showStep(stepDate);
 });
+
+
 
 dateNextButton.addEventListener("click", () => {
   if (!recordedAtInput.value) {
@@ -541,7 +570,7 @@ userNextButton.addEventListener("click", () => {
 });
 
 
-soundTextInput.addEventListener("input", () => {
+soundTextInput.addEventListener("change", () => {
   waitingForLocation = true;
 
   uploadStatus.textContent =
