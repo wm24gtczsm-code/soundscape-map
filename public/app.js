@@ -485,9 +485,8 @@ const recordedAtInput =document.getElementById("recordedAtInput");
 const soundTextInput = document.getElementById("soundTextInput");
 const uploadStatus = document.getElementById("upload-status");
 const dateNextButton = document.getElementById("dateNextButton");
-
-
 const stepFile = document.getElementById("step-file");
+const fileNextButton = document.getElementById("fileNextButton");
 const stepDate = document.getElementById("step-date");
 const stepText = document.getElementById("step-text");
 const stepUser = document.getElementById("step-user");
@@ -508,40 +507,25 @@ showStep(stepFile);
 
 
 audioInput.addEventListener("change", (e) => {
-
   const file = e.target.files[0];
 
   if (!file) {
-    uploadStatus.textContent =
-      "音声ファイルを選択してください。";
-    return;
-  }
-
-  // スマホ用に緩めの音声判定
-  const fileName = file.name.toLowerCase();
-
-  const isAudio =
-    (file.type && file.type.startsWith("audio/")) ||
-    fileName.endsWith(".mp3") ||
-    fileName.endsWith(".m4a") ||
-    fileName.endsWith(".wav");
-
-  if (!isAudio) {
-    uploadStatus.textContent =
-      "音声ファイルを選択してください。";
-
-    alert(
-      `選択されたファイル:\n${file.name}\nタイプ:${file.type}`
-    );
-
+    selectedAudioFile = null;
+    uploadStatus.textContent = "音声ファイルを選択してください。";
     return;
   }
 
   selectedAudioFile = file;
+  uploadStatus.textContent = "音声ファイルを選択しました。次へ進んでください。";
+});
 
-  uploadStatus.textContent =
-    "録音日を選択してください。";
+fileNextButton.addEventListener("click", () => {
+  if (!selectedAudioFile) {
+    uploadStatus.textContent = "先に音声ファイルを選択してください。";
+    return;
+  }
 
+  uploadStatus.textContent = "録音日を選択してください。";
   showStep(stepDate);
 });
 
