@@ -556,7 +556,11 @@ userNextButton.addEventListener("click", () => {
 });
 
 
-soundTextInput.addEventListener("change", () => {
+const textNextButton =
+  document.getElementById("textNextButton");
+
+textNextButton.addEventListener("click", () => {
+
   waitingForLocation = true;
 
   uploadStatus.textContent =
