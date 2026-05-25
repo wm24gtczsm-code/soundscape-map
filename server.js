@@ -26,9 +26,12 @@ app.get("/sounds", async (req, res) => {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
-    return res.status(500).json({ error: "sounds取得失敗" });
-  }
+  console.error("sounds取得エラー:", error);
+  return res.status(500).json({
+    error: "sounds取得失敗",
+    detail: error.message
+  });
+}
 
   const sounds = data.map(sound => ({
     lat: sound.lat,
