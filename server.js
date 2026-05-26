@@ -8,6 +8,8 @@ const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
+
+app.use(express.json());
 app.use(express.static("public"));
 
 const upload = multer({
@@ -34,6 +36,7 @@ app.get("/sounds", async (req, res) => {
 }
 
   const sounds = data.map(sound => ({
+    id: sound.id, 
     lat: sound.lat,
     lng: sound.lng,
     file: sound.file_url,
@@ -93,6 +96,7 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
     res.json({
       success: true,
       sound: {
+        id: data.id,
         lat: data.lat,
         lng: data.lng,
         file: data.file_url,
@@ -107,6 +111,38 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
     res.status(500).json({ error: "アップロード失敗" });
   }
 });
+
+
+
+
+
+app.post('/delete-request', async (req, res) => {
+  const { soundId, reason } = req.body;
+
+  if (!soundId || !reason) {
+    return res.status(400).json({ error: 'soundId and reason are required' });
+  }
+
+  const { error } = await supabase
+    .from('delete_requests')
+    .insert([
+      {
+        sound_id: soundId,
+        reason: reason,
+        status: 'pending'
+      }
+    ]);
+
+  if (error) {
+    console.error('削除依頼保存エラー:', error);
+    return res.status(500).json({ error: 'Failed to save delete request' });
+  }
+
+  res.json({ success: true });
+});
+
+
+
 
 const PORT = process.env.PORT || 3000;
 

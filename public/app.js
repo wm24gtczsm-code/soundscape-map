@@ -153,11 +153,20 @@ function addSoundMarker(soundData) {
     { icon: normalIcon }
   ).addTo(map);
 
-  marker.bindPopup(`
+  marker.bindPopup(`<div>
   ${soundData.text || "説明なし"}
   <br>
   (${formatDate(soundData.recordedAt)}/
   ${soundData.userName || "名無しさん"})
+
+  <br><br>
+
+<button onclick="openDeleteRequestForm('${soundData.id}')">
+      削除依頼
+    </button>
+    
+  </div>
+
 `);
 
   markers.push(marker);
@@ -581,6 +590,44 @@ textNextButton.addEventListener("click", () => {
 });
 
 
+
+
+
+
+
+
+
+window.openDeleteRequestForm = async function (soundId) {
+  const reason = prompt(
+    "削除依頼の理由を書いてください。\n例：不適切な音声やコメント、著作権違反、間違えて投稿したなど"
+  );
+
+  if (!reason) {
+    return;
+  }
+
+  try {
+    const res = await fetch('/delete-request', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        soundId: soundId,
+        reason: reason
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error('削除依頼の送信に失敗しました');
+    }
+
+    alert('削除依頼を送信しました');
+  } catch (error) {
+    console.error(error);
+    alert('削除依頼の送信に失敗しました');
+  }
+};
 
 
 
