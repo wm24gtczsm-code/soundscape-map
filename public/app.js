@@ -146,6 +146,53 @@ function formatDate(value) {
 
 
 
+
+function createPopupContent(soundData) {
+  return `
+<div>
+  ${soundData.text || "説明なし"}
+  <br>
+  (${formatDate(soundData.recordedAt)}/
+  ${soundData.userName || "名無しさん"})
+
+  <br>
+
+  <div class="popup-actions">
+
+    <button
+      class="delete-request-button"
+      onclick="openDeleteRequestForm('${soundData.id}')"
+    >
+      <img src="images/delete-request.png" alt="削除依頼">
+    </button>
+
+    <div class="like-section">
+      <img
+        class="like-button"
+        src="/images/like.png"
+        data-id="${soundData.id}"
+        width="24"
+      >
+
+      <span id="like-count-${soundData.id}">
+        ${soundData.likes_count || 0}
+      </span>
+    </div>
+
+  </div>
+</div>
+`;
+}
+
+
+
+
+
+
+
+
+
+
 function addSoundMarker(soundData) {
 
   const marker = L.marker(
@@ -153,21 +200,7 @@ function addSoundMarker(soundData) {
     { icon: normalIcon }
   ).addTo(map);
 
-  marker.bindPopup(`<div>
-  ${soundData.text || "説明なし"}
-  <br>
-  (${formatDate(soundData.recordedAt)}/
-  ${soundData.userName || "名無しさん"})
-
-  <br><br>
-
-<button onclick="openDeleteRequestForm('${soundData.id}')">
-      削除依頼
-    </button>
-    
-  </div>
-
-`);
+  marker.bindPopup(() => createPopupContent(soundData));
 
   markers.push(marker);
 
@@ -187,7 +220,8 @@ function addSoundMarker(soundData) {
 
   soundObjects.push({
     marker,
-    audio
+    audio,
+    soundData
   });
 
 }
@@ -633,6 +667,49 @@ window.openDeleteRequestForm = async function (soundId) {
 
 
 
+
+// いいね画像をクリックしたときの処理
+document.addEventListener('click', async function (e) {
+  if (!e.target.classList.contains('like-button')) return;
+
+  const soundId = e.target.dataset.id;
+
+  try {
+    const response = await fetch(`/api/sounds/${soundId}/like`, {
+      method: 'POST'
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+      alert('いいねに失敗しました');
+      return;
+    }
+
+    const countElement = document.getElementById(`like-count-${soundId}`);
+
+    if (countElement) {
+      countElement.textContent = data.likes_count;
+    }
+
+
+const targetSound = soundObjects.find(
+  obj => obj.soundData.id === soundId
+);
+
+if (targetSound) {
+  targetSound.soundData.likes_count =
+    data.likes_count;
+}
+
+
+
+  } catch (error) {
+    console.error(error);
+    alert('通信エラーでいいねできませんでした');
+  }
+});
 
 
 

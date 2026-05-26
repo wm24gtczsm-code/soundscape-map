@@ -42,11 +42,72 @@ app.get("/sounds", async (req, res) => {
     file: sound.file_url,
     text: sound.text,
     userName: sound.user_name || "名無しさん",
-    recordedAt: sound.recorded_at
+    recordedAt: sound.recorded_at,
+    likes_count: sound.likes_count || 0
   }));
 
   res.json(sounds);
 });
+
+
+
+
+
+
+
+
+// いいね数を +1 するAPI
+app.post('/api/sounds/:id/like', async (req, res) => {
+  const soundId = req.params.id;
+
+  try {
+    // まず今の likes_count を取得
+    const { data: sound, error: fetchError } = await supabase
+      .from('sounds')
+      .select('likes_count')
+      .eq('id', soundId)
+      .single();
+
+    if (fetchError) {
+      console.error(fetchError);
+      return res.status(500).json({ error: 'いいね数の取得に失敗しました' });
+    }
+
+    const currentLikes = sound.likes_count || 0;
+    const newLikes = currentLikes + 1;
+
+    // likes_count を +1 して更新
+    const { data, error: updateError } = await supabase
+      .from('sounds')
+      .update({ likes_count: newLikes })
+      .eq('id', soundId)
+      .select()
+      .single();
+
+    if (updateError) {
+      console.error(updateError);
+      return res.status(500).json({ error: 'いいねの更新に失敗しました' });
+    }
+
+    res.json({
+      message: 'いいねしました',
+      likes_count: data.likes_count
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'サーバーエラー' });
+  }
+});
+
+
+
+
+
+
+
+
+
 
 app.post("/upload", upload.single("audio"), async (req, res) => {
   try {
@@ -102,7 +163,8 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
         file: data.file_url,
         text: data.text,
         userName: data.user_name || "名無しさん",
-        recordedAt: data.recorded_at
+        recordedAt: data.recorded_at,
+        likes_count: data.likes_count || 0
       }
     });
 
