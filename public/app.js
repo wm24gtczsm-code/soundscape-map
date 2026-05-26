@@ -32,15 +32,6 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
 */
 //わかりました
 
-//openstreetmap
-/*
-L.tileLayer(
-    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution: '&copy; OpenStreetMap contributors'
-    }
-).addTo(map);
-*/
 
 
 
@@ -56,17 +47,40 @@ L.tileLayer(
 */
 
 
+//openstreetmap
+
+const osm = L.tileLayer(
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 20
+    }
+);
+
+
+
 //Carto Voyager(候補1)
 
-L.tileLayer(
+const cartoVoyager = L.tileLayer(
   'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.PNG',
   {
     attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     subdomains: 'abcd',
     maxZoom: 20
   }
-).addTo(map);
+);
 
+cartoVoyager.addTo(map);
+
+
+
+const baseMaps = {
+  "CARTO Voyager": cartoVoyager,
+  "CARTO Light": cartoLight,
+  "OpenStreetMap": osm
+};
+
+L.control.layers(baseMaps).addTo(map);
 
 
 
