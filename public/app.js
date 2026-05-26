@@ -76,7 +76,6 @@ cartoVoyager.addTo(map);
 
 const baseMaps = {
   "CARTO Voyager": cartoVoyager,
-  "CARTO Light": cartoLight,
   "OpenStreetMap": osm
 };
 
