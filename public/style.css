@@ -122,22 +122,19 @@ body {
   /* アップロードUI */
   #upload-ui {
     width: calc(100% - 32px);
+  left: 16px;
+  right: 16px;
+  top: 40px;
+  bottom: auto;
 
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 16px;
 
-    padding: 14px;
-
-    font-size: 15px;
-
-    border-radius: 16px;
-
-    height: auto;
-    min-height: unset;
-    max-height: none;
-
-    overflow: visible;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
   }
 
   #upload-ui h2 {
