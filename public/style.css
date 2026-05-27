@@ -87,64 +87,102 @@ body {
 
 @media screen and (max-width: 600px) {
 
-  /* 地図上の音アイコン */
+  /* 基本文字サイズ */
+  html {
+    font-size: 20px;
+  }
+
+  body {
+    font-size: 20px;
+  }
+
+  /* 地図UI（ズーム・レイヤー） */
+  .leaflet-control a,
+  .leaflet-control-layers-toggle {
+    width: 56px !important;
+    height: 56px !important;
+    line-height: 56px !important;
+    font-size: 26px !important;
+  }
+
+  /* 地図アイコン */
   .leaflet-marker-icon {
-    width: 44px !important;
-    height: 44px !important;
+    width: 52px !important;
+    height: 52px !important;
   }
 
   .leaflet-marker-shadow {
-    width: 48px !important;
-    height: 48px !important;
+    width: 58px !important;
+    height: 58px !important;
   }
 
-  /* Leafletのズームボタン・レイヤーボタン */
-  .leaflet-control a,
-  .leaflet-control-layers-toggle {
-    width: 44px !important;
-    height: 44px !important;
-    line-height: 44px !important;
-    font-size: 22px !important;
-  }
-
-  /* アップロードUI全体 */
+  /* アップロードUI */
   #upload-ui {
-    width: calc(100% - 24px);
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    padding: 16px;
-    font-size: 16px;
+    width: calc(100% - 20px);
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+
+    padding: 20px;
+    border-radius: 20px;
+
+    font-size: 18px;
   }
 
   #upload-ui h2 {
-    font-size: 20px;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
   }
 
   #upload-ui p,
   #upload-ui label {
-    font-size: 16px;
+    font-size: 1.1rem;
+    line-height: 1.6;
   }
 
-  #upload-ui input,
+  /* 入力欄 */
+  #upload-ui input {
+    width: 100%;
+    box-sizing: border-box;
+
+    font-size: 18px;
+    min-height: 54px;
+    padding: 12px 14px;
+
+    border-radius: 12px;
+  }
+
+  /* ボタン */
   #upload-ui button {
-    font-size: 16px;
-    min-height: 44px;
-    padding: 10px 12px;
+    width: 100%;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    min-height: 54px;
+    margin-top: 10px;
+    padding: 12px 14px;
+
+    border-radius: 12px;
   }
 
+  /* ステータス文字 */
   #upload-status {
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 12px;
   }
 
   /* ポップアップ */
   .leaflet-popup-content {
-    font-size: 16px;
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   .leaflet-popup-content button {
     font-size: 16px;
-    min-height: 40px;
-    padding: 8px 12px;
+    min-height: 44px;
+    padding: 10px 14px;
+    margin-top: 8px;
   }
 }
