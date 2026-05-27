@@ -87,57 +87,62 @@ body {
 
 @media screen and (max-width: 600px) {
 
-  /* 基本文字サイズ */
+  /* 基本文字 */
   html {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   body {
-    font-size: 20px;
-  }
-
-  /* 地図UI（ズーム・レイヤー） */
-  .leaflet-control a,
-  .leaflet-control-layers-toggle {
-    width: 56px !important;
-    height: 56px !important;
-    line-height: 56px !important;
-    font-size: 26px !important;
+    font-size: 16px;
   }
 
   /* 地図アイコン */
   .leaflet-marker-icon {
-    width: 52px !important;
-    height: 52px !important;
+    width: 46px !important;
+    height: 46px !important;
   }
 
   .leaflet-marker-shadow {
-    width: 58px !important;
-    height: 58px !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  /* ズーム・レイヤーボタン */
+  .leaflet-control a,
+  .leaflet-control-layers-toggle {
+    width: 48px !important;
+    height: 48px !important;
+    line-height: 48px !important;
+    font-size: 22px !important;
   }
 
   /* アップロードUI */
   #upload-ui {
-    width: calc(100% - 20px);
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
+    width: calc(100% - 32px);
 
-    padding: 20px;
-    border-radius: 20px;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
 
-    font-size: 18px;
+    padding: 14px;
+
+    font-size: 15px;
+
+    border-radius: 16px;
+
+    max-height: 45vh;
+    overflow-y: auto;
   }
 
   #upload-ui h2 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
   }
 
-  #upload-ui p,
-  #upload-ui label {
-    font-size: 1.1rem;
-    line-height: 1.6;
+  #upload-ui p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
   }
 
   /* 入力欄 */
@@ -145,44 +150,42 @@ body {
     width: 100%;
     box-sizing: border-box;
 
-    font-size: 18px;
-    min-height: 54px;
-    padding: 12px 14px;
+    min-height: 44px;
 
-    border-radius: 12px;
+    font-size: 16px;
+    padding: 10px;
+
+    border-radius: 10px;
   }
 
   /* ボタン */
   #upload-ui button {
     width: 100%;
 
-    font-size: 18px;
-    font-weight: bold;
+    min-height: 44px;
 
-    min-height: 54px;
-    margin-top: 10px;
-    padding: 12px 14px;
+    font-size: 16px;
 
-    border-radius: 12px;
+    padding: 10px;
+    margin-top: 8px;
+
+    border-radius: 10px;
   }
 
-  /* ステータス文字 */
+  /* ステータス */
   #upload-status {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-top: 12px;
+    font-size: 14px;
+    margin-top: 8px;
+    line-height: 1.4;
   }
 
   /* ポップアップ */
   .leaflet-popup-content {
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: 15px;
   }
 
   .leaflet-popup-content button {
-    font-size: 16px;
-    min-height: 44px;
-    padding: 10px 14px;
-    margin-top: 8px;
+    font-size: 15px;
+    min-height: 40px;
   }
 }
