@@ -50,11 +50,11 @@ L.tileLayer(
 //openstreetmap
 
 const osm = L.tileLayer(
-    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 20
-    }
+  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 20
+  }
 );
 
 
@@ -88,24 +88,40 @@ L.control.layers(baseMaps).addTo(map);
 
 
 
+// スマホ判定
+const isMobile = window.innerWidth <= 600;
+
+// サイズ切り替え
+const iconSize = isMobile ? 44 : 30;
+const shadowSize = isMobile ? 50 : 34;
+
+const iconAnchor = iconSize / 2;
+const shadowAnchor = shadowSize / 2;
+
 let normalIcon = L.icon({
   iconUrl: 'images/icon-new.PNG',
   shadowUrl: 'images/icon-shadow.PNG',
-  iconSize: [30, 30], // size of the icon
-  shadowSize: [34, 34],
-  iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-  shadowAnchor: [17, 16.5],
-  popupAnchor: [0, 0] // point from which the popup should open relative to the iconAnchor
+
+  iconSize: [iconSize, iconSize],
+  shadowSize: [shadowSize, shadowSize],
+
+  iconAnchor: [iconAnchor, iconAnchor],
+  shadowAnchor: [shadowAnchor, shadowAnchor],
+
+  popupAnchor: [0, 0]
 });
 
 let activeIcon = L.icon({
   iconUrl: 'images/icon-new-tap.PNG',
   shadowUrl: 'images/shadow-tap.PNG',
-  iconSize: [30, 30], // size of the icon
-  shadowSize: [34, 34],
-  iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-  shadowAnchor: [17, 16.5],
-  popupAnchor: [0, 0] // point from which the popup should open relative to the iconAnchor
+
+  iconSize: [iconSize, iconSize],
+  shadowSize: [shadowSize, shadowSize],
+
+  iconAnchor: [iconAnchor, iconAnchor],
+  shadowAnchor: [shadowAnchor, shadowAnchor],
+
+  popupAnchor: [0, 0]
 });
 
 
@@ -115,6 +131,10 @@ let activeIcon = L.icon({
 //
 
 const soundObjects = [];
+
+
+
+const manuallyStoppedSoundIds = new Set();
 
 
 //
@@ -148,6 +168,17 @@ function formatDate(value) {
 
 
 function createPopupContent(soundData) {
+const isStopped =
+    manuallyStoppedSoundIds.has(String(soundData.id));
+
+  const toggleIconSrc = isStopped
+    ? "images/sound-stopped.png"
+    : "images/sound-playing.png";
+
+  const toggleIconAlt = isStopped
+    ? "この音を再生する"
+    : "この音を止める";
+
   return `
 <div>
   ${soundData.text || "説明なし"}
@@ -165,6 +196,19 @@ function createPopupContent(soundData) {
     >
       <img src="images/delete-request.png" alt="削除依頼">
     </button>
+
+
+    <button
+  class="sound-toggle-button"
+  data-id="${soundData.id}"
+>
+  <img
+    class="sound-toggle-icon"
+    src="${toggleIconSrc}"
+    alt="${toggleIconAlt}"
+  >
+</button>
+
 
     <div class="like-section">
       <img
@@ -264,7 +308,7 @@ map.on('click', (e) => {
     map.removeLayer(tempMarker);
   }
 
-   const popupContent = document.createElement("div");
+  const popupContent = document.createElement("div");
 
   popupContent.innerHTML = `
     <p>ここに音を置きますか？</p>
@@ -424,6 +468,14 @@ function updateSounds() {
     const marker = obj.marker;
     const audio = obj.audio;
 
+    const soundId = String(obj.soundData.id);
+
+  if (manuallyStoppedSoundIds.has(soundId)) {
+    audio.pause();
+    audio.currentTime = 0;
+    return;
+  }
+
     const latlng = marker.getLatLng();
 
 
@@ -537,7 +589,7 @@ let pendingLatLng = null;
 let tempMarker = null;
 
 const audioInput = document.getElementById("audioInput");
-const recordedAtInput =document.getElementById("recordedAtInput");
+const recordedAtInput = document.getElementById("recordedAtInput");
 const soundTextInput = document.getElementById("soundTextInput");
 const uploadStatus = document.getElementById("upload-status");
 const dateNextButton = document.getElementById("dateNextButton");
@@ -599,7 +651,7 @@ dateNextButton.addEventListener("click", () => {
   uploadStatus.textContent = "ユーザー名を記入してください。";
 
   showStep(stepUser);
-  });
+});
 
 userNextButton.addEventListener("click", () => {
   if (!userNameInput.value.trim()) {
@@ -623,6 +675,79 @@ textNextButton.addEventListener("click", () => {
     "地図上の置きたい場所をクリックしてください。";
 });
 
+
+
+
+
+
+window.toggleManualSound = function (soundId) {
+  const targetSound = soundObjects.find(
+    obj => obj.soundData.id === soundId
+  );
+
+  if (!targetSound) return;
+
+  if (manuallyStoppedSoundIds.has(soundId)) {
+    manuallyStoppedSoundIds.delete(soundId);
+  } else {
+    manuallyStoppedSoundIds.add(soundId);
+    targetSound.audio.pause();
+    targetSound.audio.currentTime = 0;
+  }
+
+  updateSounds();
+};
+
+
+
+
+
+document.addEventListener("click", function (e) {
+
+  const button = e.target.closest(".sound-toggle-button");
+
+  if (!button) {
+    return;
+  }
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  const soundId = String(button.dataset.id);
+
+  const targetSound = soundObjects.find(
+    obj => String(obj.soundData.id) === soundId
+  );
+
+  if (!targetSound) {
+    console.log("対象の音が見つかりません:", soundId);
+    return;
+  }
+
+  const icon = button.querySelector(".sound-toggle-icon");
+
+  if (manuallyStoppedSoundIds.has(soundId)) {
+    manuallyStoppedSoundIds.delete(soundId);
+
+    if (icon) {
+      icon.src = "images/sound-playing.png";
+      icon.alt = "この音を止める";
+    }
+
+  } else {
+    manuallyStoppedSoundIds.add(soundId);
+
+    targetSound.audio.pause();
+    targetSound.audio.currentTime = 0;
+
+    if (icon) {
+      icon.src = "images/sound-stopped.png";
+      icon.alt = "この音を再生する";
+    }
+  }
+
+  updateSounds();
+});
 
 
 
@@ -694,14 +819,14 @@ document.addEventListener('click', async function (e) {
     }
 
 
-const targetSound = soundObjects.find(
-  obj => obj.soundData.id === soundId
-);
+    const targetSound = soundObjects.find(
+      obj => obj.soundData.id === soundId
+    );
 
-if (targetSound) {
-  targetSound.soundData.likes_count =
-    data.likes_count;
-}
+    if (targetSound) {
+      targetSound.soundData.likes_count =
+        data.likes_count;
+    }
 
 
 

@@ -63,3 +63,88 @@ body {
   align-items: flex-end;
   gap: 4px;
 }
+
+
+
+.sound-toggle-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sound-toggle-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 600px) {
+
+  /* 地図上の音アイコン */
+  .leaflet-marker-icon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .leaflet-marker-shadow {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  /* Leafletのズームボタン・レイヤーボタン */
+  .leaflet-control a,
+  .leaflet-control-layers-toggle {
+    width: 44px !important;
+    height: 44px !important;
+    line-height: 44px !important;
+    font-size: 22px !important;
+  }
+
+  /* アップロードUI全体 */
+  #upload-ui {
+    width: calc(100% - 24px);
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  #upload-ui h2 {
+    font-size: 20px;
+  }
+
+  #upload-ui p,
+  #upload-ui label {
+    font-size: 16px;
+  }
+
+  #upload-ui input,
+  #upload-ui button {
+    font-size: 16px;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  #upload-status {
+    font-size: 15px;
+  }
+
+  /* ポップアップ */
+  .leaflet-popup-content {
+    font-size: 16px;
+  }
+
+  .leaflet-popup-content button {
+    font-size: 16px;
+    min-height: 40px;
+    padding: 8px 12px;
+  }
+}
