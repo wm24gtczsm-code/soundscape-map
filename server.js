@@ -1,3 +1,13 @@
+const fs = require("fs");
+const ffmpeg = require("fluent-ffmpeg");
+const ffmpegPath = require("ffmpeg-static");
+
+ffmpeg.setFfmpegPath(ffmpegPath);
+
+
+
+
+
 
 require("dotenv").config();
 
@@ -13,7 +23,13 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const upload = multer({
-  storage: multer.memoryStorage()
+  storage: multer.diskStorage({
+    destination: "uploads/",
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, Date.now() + ext);
+    }
+  })
 });
 
 const supabase = createClient(
@@ -110,21 +126,52 @@ app.post('/api/sounds/:id/like', async (req, res) => {
 
 
 app.post("/upload", upload.single("audio"), async (req, res) => {
+  let inputPath;
+  let convertedPath;
+
   try {
-    const ext = path.extname(req.file.originalname);
-    const fileName = `${Date.now()}${ext}`;
+    inputPath = req.file.path;
+
+    let uploadBuffer;
+    let contentType;
+    let fileName;
+
+    if (req.file.mimetype.startsWith("video/")) {
+      fileName = `${Date.now()}.mp3`;
+      convertedPath = `uploads/${fileName}`;
+
+      await new Promise((resolve, reject) => {
+        ffmpeg(inputPath)
+          .toFormat("mp3")
+          .audioBitrate("128k")
+          .save(convertedPath)
+          .on("end", resolve)
+          .on("error", reject);
+      });
+
+      uploadBuffer = fs.readFileSync(convertedPath);
+      contentType = "audio/mpeg";
+
+    } else {
+      const ext = path.extname(req.file.originalname);
+      fileName = `${Date.now()}${ext}`;
+
+      uploadBuffer = fs.readFileSync(inputPath);
+      contentType = req.file.mimetype;
+    }
+
     const filePath = `uploads/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("sounds")
-      .upload(filePath, req.file.buffer, {
-        contentType: req.file.mimetype,
+      .upload(filePath, uploadBuffer, {
+        contentType,
         upsert: false
       });
 
     if (uploadError) {
       console.error(uploadError);
-      return res.status(500).json({ error: "音声アップロード失敗" });
+      return res.status(500).json({ error: "アップロード失敗" });
     }
 
     const { data: publicUrlData } = supabase.storage
@@ -171,8 +218,19 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "アップロード失敗" });
+
+  } finally {
+    if (inputPath && fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    if (convertedPath && fs.existsSync(convertedPath)) {
+      fs.unlinkSync(convertedPath);
+    }
   }
 });
+
+
 
 
 
