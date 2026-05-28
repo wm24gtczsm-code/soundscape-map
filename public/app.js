@@ -79,7 +79,9 @@ const baseMaps = {
   "OpenStreetMap": osm
 };
 
-L.control.layers(baseMaps).addTo(map);
+L.control.layers(baseMaps, null, {
+  position: 'topleft'
+}).addTo(map);
 
 
 
@@ -836,6 +838,25 @@ document.addEventListener('click', async function (e) {
   }
 });
 
+
+
+
+const uploadToggleButton =
+  document.getElementById(
+    "uploadToggleButton"
+  );
+
+const uploadUi =
+  document.getElementById(
+    "upload-ui"
+  );
+
+uploadToggleButton.addEventListener(
+  "click",
+  () => {
+    uploadUi.classList.toggle("open");
+  }
+);
 
 
 
