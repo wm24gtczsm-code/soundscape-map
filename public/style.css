@@ -170,13 +170,13 @@ body {
 
   /* 地図アイコン */
   .leaflet-marker-icon {
-    width: 46px !important;
-    height: 46px !important;
+    width: 38px !important;
+    height: 38px !important;
   }
 
   .leaflet-marker-shadow {
-    width: 50px !important;
-    height: 50px !important;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   /* ズーム・レイヤーボタン */

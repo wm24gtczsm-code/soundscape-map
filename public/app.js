@@ -94,8 +94,8 @@ L.control.layers(baseMaps, null, {
 const isMobile = window.innerWidth <= 600;
 
 // サイズ切り替え
-const iconSize = isMobile ? 44 : 30;
-const shadowSize = isMobile ? 50 : 34;
+const iconSize = isMobile ? 38 : 30;
+const shadowSize = isMobile ? 42 : 34;
 
 const iconAnchor = iconSize / 2;
 const shadowAnchor = shadowSize / 2;
