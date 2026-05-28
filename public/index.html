@@ -30,7 +30,66 @@
     音をアップロードする
   </div>
 
+
+
+
 </div>
+
+
+
+
+
+
+<div id="filterButtonWrapper">
+  <button id="filterToggleButton"></button>
+  <div id="filterTooltip">音をフィルタリングする</div>
+</div>
+
+<div id="filter-ui">
+  <p>表示する音の日時</p>
+
+
+<label>
+  開始年
+  <input type="number" id="filterStartYear">
+</label>
+
+<label>
+  終了年
+  <input type="number" id="filterEndYear">
+</label>
+
+
+<label>
+  開始月
+  <input type="number" id="filterStartMonth" min="1" max="12">
+</label>
+
+<label>
+  終了月
+  <input type="number" id="filterEndMonth" min="1" max="12">
+</label>
+
+
+
+ <label>
+  開始時刻
+  <input type="time" id="filterStartTime">
+</label>
+
+<label>
+  終了時刻
+  <input type="time" id="filterEndTime">
+</label>
+
+
+  <button id="applyFilterButton">絞り込む</button>
+  <button id="resetFilterButton">リセット</button>
+</div>
+
+
+
+
 
 
     <div id="upload-ui">

@@ -88,6 +88,13 @@ L.control.layers(baseMaps, null, {
 
 
 
+let allSounds = [];
+
+
+
+
+
+
 
 
 // スマホ判定
@@ -132,7 +139,7 @@ let activeIcon = L.icon({
 // ④ マーカーと音を保存
 //
 
-const soundObjects = [];
+let soundObjects = [];
 
 
 
@@ -143,7 +150,7 @@ const manuallyStoppedSoundIds = new Set();
 // ⑤ マーカー生成
 //
 
-const markers = [];
+let markers = [];
 
 
 function formatDate(value) {
@@ -170,7 +177,7 @@ function formatDate(value) {
 
 
 function createPopupContent(soundData) {
-const isStopped =
+  const isStopped =
     manuallyStoppedSoundIds.has(String(soundData.id));
 
   const toggleIconSrc = isStopped
@@ -275,13 +282,28 @@ function addSoundMarker(soundData) {
 
 
 
+function clearSoundMarkers() {
+  soundObjects.forEach(obj => {
+    obj.audio.pause();
+    obj.audio.currentTime = 0;
+    map.removeLayer(obj.marker);
+  });
+
+  soundObjects = [];
+  markers = [];
+}
+
+
+
 
 
 
 fetch("/sounds")
   .then(response => response.json())
   .then(uploadedSounds => {
-    uploadedSounds.forEach(sound => {
+    allSounds = uploadedSounds;
+
+    allSounds.forEach(sound => {
       addSoundMarker(sound);
     });
   });
@@ -472,11 +494,11 @@ function updateSounds() {
 
     const soundId = String(obj.soundData.id);
 
-  if (manuallyStoppedSoundIds.has(soundId)) {
-    audio.pause();
-    audio.currentTime = 0;
-    return;
-  }
+    if (manuallyStoppedSoundIds.has(soundId)) {
+      audio.pause();
+      audio.currentTime = 0;
+      return;
+    }
 
     const latlng = marker.getLatLng();
 
@@ -864,6 +886,207 @@ uploadToggleButton.addEventListener(
 
 
 
+//フィルター
+
+function applyDateFilter() {
+
+
+  const startYear =
+    document.getElementById("filterStartYear").value;
+
+  const endYear =
+    document.getElementById("filterEndYear").value;
+
+
+  const startMonth =
+    document.getElementById("filterStartMonth").value;
+
+  const endMonth =
+    document.getElementById("filterEndMonth").value;
+
+  const startTime =
+    document.getElementById("filterStartTime").value;
+
+  const endTime =
+    document.getElementById("filterEndTime").value;
+
+  clearSoundMarkers();
+
+  const filteredSounds = allSounds.filter(sound => {
+
+    if (!sound.recordedAt) {
+      return false;
+    }
+
+    const date = new Date(sound.recordedAt);
+
+
+ //
+  // 年判定
+  //
+
+  const year = date.getFullYear();
+
+  if (
+    !isInNormalRange(
+      year,
+      startYear,
+      endYear
+    )
+  ) {
+    return false;
+  }
 
 
 
+
+    //
+    // 月判定
+    //
+
+    const month = date.getMonth() + 1;
+
+    if (
+      !isInWrappedRange(
+        month,
+        startMonth,
+        endMonth
+      )
+    ) {
+      return false;
+    }
+
+    //
+    // 時刻判定
+    //
+
+    if (
+      !isInTimeRange(
+        sound.recordedAt,
+        startTime,
+        endTime
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
+  filteredSounds.forEach(sound => {
+    addSoundMarker(sound);
+  });
+}
+
+
+
+
+//普通の範囲判定（年・日など）
+function isInNormalRange(value, start, end) {
+
+  if (!start && !end) {
+    return true;
+  }
+
+  if (start && value < Number(start)) {
+    return false;
+  }
+
+  if (end && value > Number(end)) {
+    return false;
+  }
+
+  return true;
+}
+
+
+
+
+
+//循環する範囲判定（月・時刻など）
+function isInWrappedRange(
+  value,
+  start,
+  end
+) {
+
+  if (!start && !end) {
+    return true;
+  }
+
+  start = Number(start);
+  end = Number(end);
+
+  if (start <= end) {
+    return value >= start && value <= end;
+  }
+
+  return value >= start || value <= end;
+}
+
+
+
+
+//リセット
+function resetDateFilter() {
+  document.getElementById("filterStartMonth").value = "";
+  document.getElementById("filterEndMonth").value = "";
+  document.getElementById("filterStartTime").value = "";
+  document.getElementById("filterEndTime").value = "";
+
+  clearSoundMarkers();
+
+  allSounds.forEach(sound => {
+    addSoundMarker(sound);
+  });
+}
+
+
+
+const filterToggleButton = document.getElementById("filterToggleButton");
+const filterUi = document.getElementById("filter-ui");
+const applyFilterButton = document.getElementById("applyFilterButton");
+const resetFilterButton = document.getElementById("resetFilterButton");
+
+filterToggleButton.addEventListener("click", () => {
+  filterUi.classList.toggle("open");
+});
+
+applyFilterButton.addEventListener("click", applyDateFilter);
+resetFilterButton.addEventListener("click", resetDateFilter);
+
+
+
+
+//時刻判定
+function isInTimeRange(recordedAt, startTimeValue, endTimeValue) {
+  if (!startTimeValue && !endTimeValue) {
+    return true;
+  }
+
+  const date = new Date(recordedAt);
+
+  const recordedMinutes =
+    date.getHours() * 60 + date.getMinutes();
+
+  let startMinutes = 0;
+  let endMinutes = 24 * 60 - 1;
+
+  if (startTimeValue) {
+    const [startHour, startMinute] = startTimeValue.split(":").map(Number);
+    startMinutes = startHour * 60 + startMinute;
+  }
+
+  if (endTimeValue) {
+    const [endHour, endMinute] = endTimeValue.split(":").map(Number);
+    endMinutes = endHour * 60 + endMinute;
+  }
+
+  // 例：17:00〜23:00 みたいに同じ日の中で完結する場合
+  if (startMinutes <= endMinutes) {
+    return recordedMinutes >= startMinutes && recordedMinutes <= endMinutes;
+  }
+
+  // 例：17:00〜02:00 みたいに日付をまたぐ場合
+  return recordedMinutes >= startMinutes || recordedMinutes <= endMinutes;
+}
