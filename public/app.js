@@ -1,12 +1,40 @@
 const map = L.map('map', {
-  zoomSnap: 0.25,
-  zoomDelta: 0.25,
+  zoomSnap: 0,
+  zoomDelta: 1,
   zoomControl: false,
-  // ホイール感度を上げる
-  wheelPxPerZoomLevel: 20,
-
+  scrollWheelZoom: false,
   zoomAnimation: true
 }).setView([35.612019, 139.578445], 10);
+
+
+
+const mapElement = document.getElementById("map");
+
+mapElement.addEventListener("wheel", function (e) {
+  e.preventDefault();
+
+  const currentZoom = map.getZoom();
+
+  const isTrackpad = Math.abs(e.deltaY) < 3;
+
+  const sensitivity = isTrackpad ? 0.5 : 0.002;
+
+  let zoomChange = -e.deltaY * sensitivity;
+
+  if (!isTrackpad) {
+    zoomChange = zoomChange > 0 ? 0.9 : -0.9;
+  }
+
+  const nextZoom = currentZoom + zoomChange;
+
+  map.setZoomAround(
+    map.mouseEventToLatLng(e),
+    nextZoom
+  );
+}, { passive: false });
+
+
+
 
 
 function init() {
