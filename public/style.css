@@ -391,4 +391,41 @@ body {
     font-size: 15px;
     min-height: 40px;
   }
+
+
+
+  /* ポップアップ内のアイコンボタンを揃える */
+.leaflet-popup-content button.like-button,
+.leaflet-popup-content button.delete-request-button,
+.leaflet-popup-content button.sound-toggle-button {
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+
+  padding: 0;
+  margin: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  vertical-align: middle;
+
+  border: none;
+  background: transparent;
 }
+
+/* ボタン内の画像サイズを揃える */
+.leaflet-popup-content button.like-button img,
+.leaflet-popup-content button.delete-request-button img,
+.leaflet-popup-content button.sound-toggle-button img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+
+
+
+}
+
