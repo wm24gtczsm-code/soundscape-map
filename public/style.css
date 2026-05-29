@@ -284,6 +284,13 @@ body {
     font-size: 22px !important;
   }
 
+  /* クレジット表示 */
+ .leaflet-control-attribution {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+
 
 #uploadButtonWrapper {
   top: 76px;
