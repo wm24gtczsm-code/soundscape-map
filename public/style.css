@@ -415,17 +415,26 @@ body {
   background: transparent;
 }
 
-/* ボタン内の画像サイズを揃える */
-.leaflet-popup-content button.like-button img,
-.leaflet-popup-content button.delete-request-button img,
-.leaflet-popup-content button.sound-toggle-button img {
-  width: 24px;
-  height: 24px;
+/* ポップアップ内の画像ボタンを全部揃える */
+.leaflet-popup-content button img {
+  width: 24px !important;
+  height: 24px !important;
   display: block;
 }
 
-
-
-
+/* 画像が入っているボタンを中央揃え */
+.leaflet-popup-content button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }
+}
+
+
+
+
+
+
+
 
