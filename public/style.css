@@ -286,10 +286,13 @@ body {
 
   /* クレジット表示 */
  .leaflet-control-attribution {
-    font-size: 9px;
+    font-size: 9px !important;
     padding: 2px 4px;
   }
 
+  .leaflet-control-attribution a[href*="leaflet"] {
+    display: none;
+  }
 
 
 #uploadButtonWrapper {
