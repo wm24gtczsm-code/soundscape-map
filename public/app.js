@@ -248,17 +248,20 @@ function createPopupContent(soundData) {
 
 
     <div class="like-section">
-      <img
-        class="like-button"
-        src="/images/like.png"
-        data-id="${soundData.id}"
-        width="24"
-      >
+  <button
+    class="like-button"
+    data-id="${soundData.id}"
+  >
+    <img
+      src="/images/like.png"
+      alt="いいね"
+    >
+  </button>
 
-      <span id="like-count-${soundData.id}">
-        ${soundData.likes_count || 0}
-      </span>
-    </div>
+  <span id="like-count-${soundData.id}">
+    ${soundData.likes_count || 0}
+  </span>
+</div>
 
   </div>
 </div>
@@ -847,9 +850,11 @@ window.openDeleteRequestForm = async function (soundId) {
 
 // いいね画像をクリックしたときの処理
 document.addEventListener('click', async function (e) {
-  if (!e.target.classList.contains('like-button')) return;
+  const likeButton = e.target.closest(".like-button");
 
-  const soundId = e.target.dataset.id;
+if (!likeButton) return;
+
+const soundId = likeButton.dataset.id;
 
   try {
     const response = await fetch(`/api/sounds/${soundId}/like`, {
