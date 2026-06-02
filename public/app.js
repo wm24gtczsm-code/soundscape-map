@@ -140,9 +140,21 @@ cartoVoyager.addTo(map);
 
 
 
+//白紙
+const blankMap = L.tileLayer(
+  'data:image/gif;base64,R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+  {
+    tileSize: 256,
+    attribution: ''
+  }
+);
+
+
+
 const baseMaps = {
   "CARTO Voyager": cartoVoyager,
-  "OpenStreetMap": osm
+  "OpenStreetMap": osm,
+  "Sound only": blankMap
 };
 
 L.control.layers(baseMaps, null, {
