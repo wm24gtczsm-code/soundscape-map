@@ -33,7 +33,8 @@ body {
 
 #uploadButtonWrapper,
 #filterButtonWrapper,
-#aboutButtonWrapper {
+#aboutButtonWrapper,
+#searchButtonWrapper {
   position: absolute;
   left: 10px;
   z-index: 1001;
@@ -47,14 +48,17 @@ body {
 
 }
 
-#filterButtonWrapper {
+#searchButtonWrapper {
   top: 130px;
 }
 
-#aboutButtonWrapper {
+#filterButtonWrapper {
   top: 190px;
 }
 
+#aboutButtonWrapper {
+  top: 250px;
+}
 
 
 
@@ -62,7 +66,8 @@ body {
 
 #uploadToggleButton,
 #filterToggleButton,
-#aboutButton {
+#aboutButton,
+#searchToggleButton {
   width: 48px;
   height: 48px;
 
@@ -80,7 +85,7 @@ body {
 
 
 #uploadToggleButton {
- 
+
   background-image:
     url("images/upload-icon.png");
 
@@ -88,7 +93,7 @@ body {
 
 #filterToggleButton {
   background-image: url("images/filter-icon.png");
- 
+
 }
 
 #aboutButton {
@@ -98,9 +103,16 @@ body {
 
 
 
+#searchToggleButton {
+  display: block;
+  background-image: url("images/search-icon.png");
+}
+
+
 #uploadTooltip,
 #filterTooltip,
-#aboutTooltip{
+#aboutTooltip,
+#searchTooltip {
   position: absolute;
 
   left: 56px;
@@ -131,8 +143,53 @@ body {
 
 #uploadButtonWrapper:hover #uploadTooltip,
 #filterButtonWrapper:hover #filterTooltip,
-#aboutButtonWrapper:hover #aboutTooltip {
+#aboutButtonWrapper:hover #aboutTooltip,
+#searchButtonWrapper:hover #searchTooltip {
   opacity: 1;
+}
+
+
+.leaflet-control-geocoder {
+  display: none !important;
+
+  position: fixed !important;
+  top: 120px !important;
+  left: 70px !important;
+
+  z-index: 9999 !important;
+
+  width: 240px;
+
+  background: white;
+  border-radius: 10px;
+  padding: 6px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-control-geocoder.open {
+  display: block !important;
+}
+
+.leaflet-control-geocoder form {
+  display: block !important;
+}
+
+.leaflet-control-geocoder input {
+  display: block !important;
+  width: 220px;
+  height: 36px;
+
+  font-size: 16px;
+  padding: 6px 10px;
+
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.leaflet-control-geocoder-icon {
+  display: none !important;
 }
 
 
@@ -187,13 +244,13 @@ body {
   margin: 0;
   cursor: pointer;
 
-  width: 36px;
-  height: 36px;
-
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
+
+
+
 
 .like-button img {
   width: 24px;
@@ -268,12 +325,6 @@ body {
 
 
 
-
-
-
-
-
-
 @media screen and (max-width: 600px) {
 
   /* 基本文字 */
@@ -306,7 +357,7 @@ body {
   }
 
   /* クレジット表示 */
- .leaflet-control-attribution {
+  .leaflet-control-attribution {
     font-size: 9px !important;
     padding: 2px 4px;
   }
@@ -316,45 +367,49 @@ body {
   }
 
 
-#uploadButtonWrapper {
-  top: 76px;
-  left: 12px;
-}
+  #uploadButtonWrapper {
+    top: 76px;
+    left: 12px;
+  }
 
-#uploadToggleButton {
-  width: 48px;
-  height: 48px;
-}
+  #uploadToggleButton {
+    width: 48px;
+    height: 48px;
+  }
 
-#uploadTooltip {
-  display: none;
-}
+  #uploadTooltip {
+    display: none;
+  }
 
 
 
-#filterTooltip {
-  display: none;
-}
+  #filterTooltip {
+    display: none;
+  }
 
+
+  #searchTooltip{
+    display: none;
+  }
 
 
   /* アップロードUI */
   #upload-ui {
-  width: calc(100% - 100px);
+    width: calc(100% - 100px);
 
-  left: 72px;
-  right: 16px;
-  top: 40px;
+    left: 72px;
+    right: 16px;
+    top: 40px;
 
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 16px;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 16px;
 
-  height: auto;
-  min-height: 0;
-  max-height: none;
-  overflow: visible;
-}
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+  }
 
   #upload-ui h2 {
     font-size: 1.2rem;
@@ -365,7 +420,7 @@ body {
   #upload-ui p {
     font-size: 0.95rem;
     line-height: 1.4;
-     margin: 6px 0;
+    margin: 6px 0;
   }
 
   /* 入力欄 */
@@ -416,46 +471,38 @@ body {
 
 
   /* ポップアップ内のアイコンボタンを揃える */
-.leaflet-popup-content button.like-button,
-.leaflet-popup-content button.delete-request-button,
-.leaflet-popup-content button.sound-toggle-button {
-  width: 36px;
-  height: 36px;
-  min-height: 0;
+  .leaflet-popup-content button.like-button,
+  .leaflet-popup-content button.delete-request-button,
+  .leaflet-popup-content button.sound-toggle-button {
+    width: 36px;
+    height: 36px;
+    min-height: 0;
 
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-  vertical-align: middle;
+    vertical-align: middle;
 
-  border: none;
-  background: transparent;
+    border: none;
+    background: transparent;
+  }
+
+  /* ポップアップ内の画像ボタンを全部揃える */
+  .leaflet-popup-content button img {
+    width: 24px !important;
+    height: 24px !important;
+    display: block;
+  }
+
+  /* 画像が入っているボタンを中央揃え */
+  .leaflet-popup-content button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+  }
 }
-
-/* ポップアップ内の画像ボタンを全部揃える */
-.leaflet-popup-content button img {
-  width: 24px !important;
-  height: 24px !important;
-  display: block;
-}
-
-/* 画像が入っているボタンを中央揃え */
-.leaflet-popup-content button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-}
-}
-
-
-
-
-
-
-
-

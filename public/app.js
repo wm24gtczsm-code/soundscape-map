@@ -46,6 +46,46 @@ function init() {
 
 init();
 
+
+
+const geocoderControl = L.Control.geocoder({
+  defaultMarkGeocode: false,
+  placeholder: "場所を検索",
+  collapsed: false
+})
+.on("markgeocode", function (e) {
+  const center = e.geocode.center;
+
+  map.setView(center, 16, {
+    animate: true
+  });
+
+  const geocoderElement = geocoderControl.getContainer();
+  geocoderElement.classList.remove("open");
+})
+.addTo(map);
+
+const searchToggleButton = document.getElementById("searchToggleButton");
+
+searchToggleButton.addEventListener("click", function () {
+  console.log("検索ボタン押された");
+
+  const geocoderElement = geocoderControl.getContainer();
+
+  geocoderElement.classList.toggle("open");
+
+  console.log(geocoderElement.classList);
+
+  const input = geocoderElement.querySelector("input");
+
+  if (geocoderElement.classList.contains("open") && input) {
+    input.focus();
+  }
+});
+
+
+
+
 //CARTO
 /*
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
@@ -58,8 +98,6 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
 
 ).addTo(map);
 */
-//わかりました
-
 
 
 

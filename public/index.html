@@ -4,14 +4,18 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <!-- 自分のJS -->
     <link rel="stylesheet" href="style.css">
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+
 
 
 
@@ -21,79 +25,85 @@
 
     <div id="map"></div>
 
-<div id="uploadButtonWrapper">
+    <div id="uploadButtonWrapper">
 
-  <button id="uploadToggleButton"
-          type="button"></button>
+        <button id="uploadToggleButton" type="button"></button>
 
-  <div id="uploadTooltip">
-    音をアップロードする
-  </div>
-
+        <div id="uploadTooltip">
+            音をアップロードする
+        </div>
 
 
 
+
+    </div>
+
+
+
+
+
+
+    <div id="filterButtonWrapper">
+        <button id="filterToggleButton"></button>
+        <div id="filterTooltip">音をフィルタリングする</div>
+    </div>
+
+
+    <div id="aboutButtonWrapper">
+        <a id="aboutButton" href="about.html"></a>
+        <div id="aboutTooltip">このサイトについて</div>
+    </div>
+
+
+<div id="searchButtonWrapper">
+  <button id="searchToggleButton" type="button"></button>
+  <div id="searchTooltip">場所を検索する</div>
 </div>
 
 
 
 
+    <div id="filter-ui">
+        <p>表示する音の日時</p>
 
 
-<div id="filterButtonWrapper">
-  <button id="filterToggleButton"></button>
-  <div id="filterTooltip">音をフィルタリングする</div>
-</div>
+        <label>
+            開始年
+            <input type="number" id="filterStartYear">
+        </label>
+
+        <label>
+            終了年
+            <input type="number" id="filterEndYear">
+        </label>
 
 
-<div id="aboutButtonWrapper">
-  <a id="aboutButton" href="about.html"></a>
-  <div id="aboutTooltip">このサイトについて</div>
-</div>
+        <label>
+            開始月
+            <input type="number" id="filterStartMonth" min="1" max="12">
+        </label>
 
-
-
-<div id="filter-ui">
-  <p>表示する音の日時</p>
-
-
-<label>
-  開始年
-  <input type="number" id="filterStartYear">
-</label>
-
-<label>
-  終了年
-  <input type="number" id="filterEndYear">
-</label>
-
-
-<label>
-  開始月
-  <input type="number" id="filterStartMonth" min="1" max="12">
-</label>
-
-<label>
-  終了月
-  <input type="number" id="filterEndMonth" min="1" max="12">
-</label>
+        <label>
+            終了月
+            <input type="number" id="filterEndMonth" min="1" max="12">
+        </label>
 
 
 
- <label>
-  開始時刻
-  <input type="time" id="filterStartTime">
-</label>
+        <label>
+            開始時刻
+            <input type="time" id="filterStartTime">
+        </label>
 
-<label>
-  終了時刻
-  <input type="time" id="filterEndTime">
-</label>
+        <label>
+            終了時刻
+            <input type="time" id="filterEndTime">
+        </label>
 
 
-  <button id="applyFilterButton">絞り込む</button>
-  <button id="resetFilterButton">リセット</button>
-</div>
+        <button id="applyFilterButton">絞り込む</button>
+        <button id="resetFilterButton">リセット</button>
+    </div>
 
 
 
@@ -137,6 +147,9 @@
 
     <!--Leaflet -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Geocoder -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <!-- 自分のJS -->
     <script src="app.js"></script>
