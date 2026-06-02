@@ -685,19 +685,15 @@ map.once('click', () => {
 });
 
 
-//
-// ⑩ 地図移動時
-//
+//ズーム時と移動時
 
-map.on('move', updateSounds);
-
-
-//
-// ⑪ ズーム時
-//
-
-map.on('zoom', updateSounds);
-
+if (isMobile) {
+  map.on('moveend', updateSounds);
+  map.on('zoomend', updateSounds);
+} else {
+  map.on('move', updateSounds);
+  map.on('zoom', updateSounds);
+}
 
 
 
