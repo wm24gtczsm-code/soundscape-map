@@ -348,25 +348,38 @@ function addSoundMarker(soundData) {
     marker.setIcon(activeIcon);
   });
 
-  const audio = new Audio(soundData.sound || soundData.file);
-  audio.loop = true;
-  audio.volume = 0;
-
   soundObjects.push({
-    marker,
-    audio,
-    soundData
-  });
-
+  marker,
+  audio: null,
+  soundData: soundData
+});
 }
+
+
+
+function getAudioForSound(soundObj) {
+  if (!soundObj.audio) {
+    soundObj.audio = new Audio(soundObj.soundData.file);
+    soundObj.audio.loop = true;
+    soundObj.audio.preload = "metadata";
+  }
+
+  return soundObj.audio;
+}
+
+
 
 
 
 
 function clearSoundMarkers() {
   soundObjects.forEach(obj => {
-    obj.audio.pause();
-    obj.audio.currentTime = 0;
+
+    if (obj.audio) {
+      obj.audio.pause();
+      obj.audio.currentTime = 0;
+    }
+
     map.removeLayer(obj.marker);
   });
 
@@ -571,7 +584,7 @@ function updateSounds() {
   soundObjects.forEach(obj => {
 
     const marker = obj.marker;
-    const audio = obj.audio;
+    const audio = getAudioForSound(obj);
 
     const soundId = String(obj.soundData.id);
 
@@ -796,8 +809,10 @@ window.toggleManualSound = function (soundId) {
     manuallyStoppedSoundIds.delete(soundId);
   } else {
     manuallyStoppedSoundIds.add(soundId);
-    targetSound.audio.pause();
-    targetSound.audio.currentTime = 0;
+    if (targetSound.audio) {
+  targetSound.audio.pause();
+  targetSound.audio.currentTime = 0;
+}
   }
 
   updateSounds();
