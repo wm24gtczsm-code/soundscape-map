@@ -136,29 +136,23 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
     let contentType;
     let fileName;
 
-    if (req.file.mimetype.startsWith("video/")) {
-      fileName = `${Date.now()}.mp3`;
-      convertedPath = `uploads/${fileName}`;
+    fileName = `${Date.now()}.mp3`;
+convertedPath = `uploads/${fileName}`;
 
-      await new Promise((resolve, reject) => {
-        ffmpeg(inputPath)
-          .toFormat("mp3")
-          .audioBitrate("128k")
-          .save(convertedPath)
-          .on("end", resolve)
-          .on("error", reject);
-      });
+await new Promise((resolve, reject) => {
+  ffmpeg(inputPath)
 
-      uploadBuffer = fs.readFileSync(convertedPath);
-      contentType = "audio/mpeg";
+    .toFormat("mp3")
+    .audioBitrate("128k")
 
-    } else {
-      const ext = path.extname(req.file.originalname);
-      fileName = `${Date.now()}${ext}`;
+    .on("end", resolve)
+    .on("error", reject)
 
-      uploadBuffer = fs.readFileSync(inputPath);
-      contentType = req.file.mimetype;
-    }
+    .save(convertedPath);
+});
+
+uploadBuffer = fs.readFileSync(convertedPath);
+contentType = "audio/mpeg";
 
     const filePath = `uploads/${fileName}`;
 
