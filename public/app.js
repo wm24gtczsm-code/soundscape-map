@@ -53,17 +53,17 @@ const geocoderControl = L.Control.geocoder({
   placeholder: "場所を検索",
   collapsed: false
 })
-.on("markgeocode", function (e) {
-  const center = e.geocode.center;
+  .on("markgeocode", function (e) {
+    const center = e.geocode.center;
 
-  map.setView(center, 16, {
-    animate: true
-  });
+    map.setView(center, 16, {
+      animate: true
+    });
 
-  const geocoderElement = geocoderControl.getContainer();
-  geocoderElement.classList.remove("open");
-})
-.addTo(map);
+    const geocoderElement = geocoderControl.getContainer();
+    geocoderElement.classList.remove("open");
+  })
+  .addTo(map);
 
 const searchToggleButton = document.getElementById("searchToggleButton");
 
@@ -349,10 +349,10 @@ function addSoundMarker(soundData) {
   });
 
   soundObjects.push({
-  marker,
-  audio: null,
-  soundData: soundData
-});
+    marker,
+    audio: null,
+    soundData: soundData
+  });
 }
 
 
@@ -584,13 +584,14 @@ function updateSounds() {
   soundObjects.forEach(obj => {
 
     const marker = obj.marker;
-    const audio = getAudioForSound(obj);
 
     const soundId = String(obj.soundData.id);
 
     if (manuallyStoppedSoundIds.has(soundId)) {
-      audio.pause();
-      audio.currentTime = 0;
+      if (obj.audio) {
+        obj.audio.pause();
+        obj.audio.currentTime = 0;
+      }
       return;
     }
 
@@ -637,6 +638,11 @@ function updateSounds() {
     //
     if (visible && finalVolume > 0) {
 
+
+      //ここで音作る
+      const audio = getAudioForSound(obj);
+
+
       //
       // 音量反映
       //
@@ -658,12 +664,10 @@ function updateSounds() {
     //
     else {
 
-      audio.pause();
-
-      //
-      // 戻った時最初から
-      //
-      audio.currentTime = 0;
+      if (obj.audio) {
+        obj.audio.pause();
+        obj.audio.currentTime = 0;
+      }
 
     }
 
@@ -806,9 +810,9 @@ window.toggleManualSound = function (soundId) {
   } else {
     manuallyStoppedSoundIds.add(soundId);
     if (targetSound.audio) {
-  targetSound.audio.pause();
-  targetSound.audio.currentTime = 0;
-}
+      targetSound.audio.pause();
+      targetSound.audio.currentTime = 0;
+    }
   }
 
   updateSounds();
@@ -913,9 +917,9 @@ window.openDeleteRequestForm = async function (soundId) {
 document.addEventListener('click', async function (e) {
   const likeButton = e.target.closest(".like-button");
 
-if (!likeButton) return;
+  if (!likeButton) return;
 
-const soundId = likeButton.dataset.id;
+  const soundId = likeButton.dataset.id;
 
   try {
     const response = await fetch(`/api/sounds/${soundId}/like`, {
@@ -1015,21 +1019,21 @@ function applyDateFilter() {
     const date = new Date(sound.recordedAt);
 
 
- //
-  // 年判定
-  //
+    //
+    // 年判定
+    //
 
-  const year = date.getFullYear();
+    const year = date.getFullYear();
 
-  if (
-    !isInNormalRange(
-      year,
-      startYear,
-      endYear
-    )
-  ) {
-    return false;
-  }
+    if (
+      !isInNormalRange(
+        year,
+        startYear,
+        endYear
+      )
+    ) {
+      return false;
+    }
 
 
 
