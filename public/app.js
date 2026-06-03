@@ -119,7 +119,7 @@ const osm = L.tileLayer(
   'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 20
+    maxZoom: 19
   }
 );
 
@@ -132,7 +132,7 @@ const cartoVoyager = L.tileLayer(
   {
     attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     subdomains: 'abcd',
-    maxZoom: 20
+    maxZoom: 19
   }
 );
 
@@ -554,8 +554,8 @@ function updateSounds() {
   //
   // ズーム設定
   //
-  const minZoom = 15;
-  const maxZoom = 20;
+  const minZoom = 16;
+  const maxZoom = 19;
 
 
   //
