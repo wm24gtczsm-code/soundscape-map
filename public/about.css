@@ -1,8 +1,8 @@
 .guide-list {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  gap: 12px;
+    gap: 12px;
 }
 
 
@@ -86,15 +86,51 @@
 
 @media (max-width: 600px) {
 
-  * {
-    font-family:
-      -apple-system,
-      BlinkMacSystemFont,
-      "Helvetica Neue",
-      "Hiragino Sans",
-      sans-serif !important;
-  }
+    * {
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Helvetica Neue",
+            "Hiragino Sans",
+            sans-serif !important;
+    }
 
+
+
+    .guide {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .guide-img {
+        width: 36px;
+        max-width: 36px;
+    }
+
+    .guide-title {
+        min-width: 90px;
+
+        font-size: 14px;
+    }
+
+    .guide-text {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .guide-popup {
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 12px;
 }
 
+.popup-img {
+  width: 100%;
+  height: auto;
 
+  max-width: 250px;
+}
+
+}
