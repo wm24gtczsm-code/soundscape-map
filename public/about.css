@@ -86,19 +86,14 @@
 
 @media (max-width: 600px) {
 
-    html,
-    body,
-    button,
-    input,
-    textarea,
-    select {
-        font-family:
-            -apple-system,
-            BlinkMacSystemFont,
-            "Helvetica Neue",
-            "Hiragino Sans",
-            sans-serif;
-    }
+  * {
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "Helvetica Neue",
+      "Hiragino Sans",
+      sans-serif !important;
+  }
 
 }
 
