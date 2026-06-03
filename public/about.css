@@ -1,0 +1,103 @@
+.guide-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.guide {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+}
+
+
+.guide-img {
+    width: 48px;
+    max-width: 48px;
+
+    flex-shrink: 0;
+}
+
+.guide-title {
+    margin: 0;
+    min-width: 180px;
+}
+
+.guide-text {
+    margin: 0;
+}
+
+
+
+
+
+.guide-popup {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.popup-img {
+    width: 302px;
+    height: 150px;
+
+    flex-shrink: 0;
+}
+
+.popup-contents {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.popup-item {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.popup-contents-img {
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+}
+
+.popup-text {
+    margin: 0;
+
+    flex: 1;
+    line-height: 1.5;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+
+    html,
+    body,
+    button,
+    input,
+    textarea,
+    select {
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Helvetica Neue",
+            "Hiragino Sans",
+            sans-serif;
+    }
+
+}

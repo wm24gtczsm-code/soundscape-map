@@ -260,6 +260,7 @@ body {
 }
 
 .like-section {
+  color: #ff649a;
   display: flex;
   align-items: center;
   gap: 4px;
