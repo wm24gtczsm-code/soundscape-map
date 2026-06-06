@@ -1,3 +1,19 @@
+body {
+    background-color: #146363;
+    color: white;
+}
+
+
+.logo {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    margin-top: 24px;
+    margin-left: 24px;
+}
+
+
 .guide-list {
     display: flex;
     flex-direction: column;
@@ -79,6 +95,12 @@
 }
 
 
+a {
+    color: yellow;
+    text-decoration: none;
+}
+
+
 
 
 
@@ -95,7 +117,10 @@
             sans-serif !important;
     }
 
-
+    .logo {
+        width: 150px;
+        height: auto;
+    }
 
     .guide {
         align-items: flex-start;
@@ -120,17 +145,23 @@
     }
 
     .guide-popup {
-  flex-direction: column;
-  align-items: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
 
-  gap: 12px;
-}
+        gap: 12px;
+    }
 
-.popup-img {
-  width: 100%;
-  height: auto;
+    .popup-img {
+        width: 100%;
+        height: auto;
 
-  max-width: 250px;
-}
+        max-width: 250px;
+    }
+
+
+    .logo {
+        width: 90vw;
+        margin: 24px auto 0;
+    }
 
 }

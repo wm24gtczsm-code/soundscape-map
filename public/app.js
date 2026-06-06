@@ -142,7 +142,10 @@ cartoVoyager.addTo(map);
 
 //白紙
 const blankMap = L.tileLayer(
-  'data:image/gif;base64,R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+  `data:image/svg+xml,
+  <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">
+    <rect width="256" height="256" fill="%23146363"/>
+  </svg>`,
   {
     tileSize: 256,
     attribution: ''
@@ -1188,3 +1191,25 @@ function isInTimeRange(recordedAt, startTimeValue, endTimeValue) {
   // 例：17:00〜02:00 みたいに日付をまたぐ場合
   return recordedMinutes >= startMinutes || recordedMinutes <= endMinutes;
 }
+
+
+
+
+
+
+
+
+
+
+const mapLogo = document.getElementById("maplogo");
+
+map.on("baselayerchange", function (e) {
+
+  if (e.layer === blankMap) {
+    mapLogo.src = "images/logo-e.png";
+  }
+
+  else {
+    mapLogo.src = "images/logo-d.png";
+  }
+});

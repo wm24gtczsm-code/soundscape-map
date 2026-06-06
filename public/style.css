@@ -11,6 +11,22 @@ body {
   background: white;
 }
 
+
+#maplogo {
+   position: absolute;
+  top: 20px;
+  right: 20px;
+
+  width: 300px;
+  height: auto;
+
+  z-index: 1001;
+  pointer-events: none;
+}
+
+
+
+
 #upload-ui {
   position: absolute;
   top: 20px;
@@ -396,7 +412,7 @@ body {
   }
 
 
-  #searchTooltip{
+  #searchTooltip {
     display: none;
   }
 
@@ -513,4 +529,27 @@ body {
     justify-content: center;
     vertical-align: middle;
   }
+
+/* スマホ検索窓 */
+.leaflet-control-geocoder {
+  top: 130px !important;
+  left: 70px !important;
+
+  width: 220px !important;
+
+  padding: 8px !important;
+  border-radius: 12px !important;
+}
+
+.leaflet-control-geocoder input {
+  width: 100% !important;
+  height: 44px !important;
+
+  font-size: 16px !important;
+  transform: none !important;
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 }
