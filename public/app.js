@@ -1213,3 +1213,24 @@ map.on("baselayerchange", function (e) {
     mapLogo.src = "images/logo-d.png";
   }
 });
+
+
+
+
+
+
+
+
+
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => {
+        console.log("Service Worker 登録成功");
+      })
+      .catch(error => {
+        console.log("Service Worker 登録失敗:", error);
+      });
+  });
+}
