@@ -14,7 +14,7 @@ body {
 }
 
 .back-to-map {
-    position: fixed;
+    position: absolute;
 
     top: 24px;
     right: 24px;
@@ -182,7 +182,7 @@ a {
     }
 
     .back-to-map {
-        top: 16px;
+        top: 180px;
         right: 16px;
         font-size: 14px;
         padding: 8px 14px;

@@ -374,10 +374,10 @@ body {
   /* ズーム・レイヤーボタン */
   .leaflet-control a,
   .leaflet-control-layers-toggle {
-    width: 48px !important;
-    height: 48px !important;
-    line-height: 48px !important;
-    font-size: 22px !important;
+    width: 45px !important;
+    height: 45px !important;
+    line-height: 50px !important;
+    font-size: 30px !important;
   }
 
   /* クレジット表示 */
@@ -391,39 +391,28 @@ body {
   }
 
 
-  #uploadButtonWrapper {
-    top: 76px;
-    left: 12px;
-  }
 
   #uploadToggleButton {
     width: 48px;
     height: 48px;
   }
 
-  #uploadTooltip {
+#uploadTooltip,
+#filterTooltip,
+#aboutTooltip,
+#searchTooltip{
     display: none;
   }
 
-
-
-  #filterTooltip {
-    display: none;
-  }
-
-
-  #searchTooltip {
-    display: none;
-  }
 
 
   /* アップロードUI */
   #upload-ui {
     width: calc(100% - 100px);
 
-    left: 72px;
-    right: 16px;
-    top: 40px;
+    left: 65px;
+    right: 30px;
+    top: 70px;
 
     padding: 14px;
     font-size: 15px;
@@ -532,13 +521,13 @@ body {
 
 /* スマホ検索窓 */
 .leaflet-control-geocoder {
-  top: 130px !important;
+  top: 100px !important;
   left: 70px !important;
 
   width: 220px !important;
 
-  padding: 8px !important;
-  border-radius: 12px !important;
+  padding: 5px !important;
+  border-radius: 8px !important;
 }
 
 .leaflet-control-geocoder input {
@@ -552,4 +541,18 @@ body {
   appearance: none;
 }
 
+/* 検索候補の一覧全体 */
+.leaflet-control-geocoder-alternatives,
+.leaflet-control-geocoder-alternatives * {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+/* 検索候補1件ずつ */
+.leaflet-control-geocoder-alternatives li,
+.leaflet-control-geocoder-alternatives li a {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  padding: 6px 8px !important;
+}
 }
