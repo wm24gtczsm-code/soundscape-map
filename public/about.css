@@ -13,6 +13,23 @@ body {
     margin-left: 24px;
 }
 
+.back-to-map {
+    position: fixed;
+
+    top: 24px;
+    right: 24px;
+
+    padding: 10px 16px;
+
+    background: white;
+    color: black;
+
+    text-decoration: none;
+    border-radius: 999px;
+
+    z-index: 1000;
+}
+
 
 .guide-list {
     display: flex;
@@ -164,4 +181,10 @@ a {
         margin: 24px auto 0;
     }
 
+    .back-to-map {
+        top: 16px;
+        right: 16px;
+        font-size: 14px;
+        padding: 8px 14px;
+    }
 }
