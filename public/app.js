@@ -1,3 +1,7 @@
+
+
+
+
 const map = L.map('map', {
   zoomSnap: 0,
   zoomDelta: 1,
@@ -35,7 +39,7 @@ mapElement.addEventListener("wheel", function (e) {
 
 
 
-
+const API_BASE_URL = "https://soundscape-map.onrender.com";
 
 function init() {
   //スケールコントロールを最大幅200px、右下、m単位で地図に追加
@@ -395,16 +399,28 @@ function clearSoundMarkers() {
 
 
 
-fetch("/sounds")
-  .then(response => response.json())
+const soundsUrl = `${API_BASE_URL}/sounds`;
+console.log("sounds url:", soundsUrl);
+
+fetch(soundsUrl)
+  .then(response => {
+    console.log("sounds response:", response.status);
+    return response.json();
+  })
   .then(uploadedSounds => {
+    console.log("sounds data:", uploadedSounds);
+
     allSounds = uploadedSounds;
 
     allSounds.forEach(sound => {
       addSoundMarker(sound);
     });
+  })
+  .catch(error => {
+    console.error("sounds fetch error name:", error.name);
+    console.error("sounds fetch error message:", error.message);
+    console.error("sounds fetch error:", error);
   });
-
 
 
 //マップクリックで選択解除
@@ -479,7 +495,7 @@ async function uploadSoundAt(latlng) {
 
   uploadStatus.textContent = "アップロード中...";
 
-  const response = await fetch("/upload", {
+  const response = await fetch(`${API_BASE_URL}/upload`, {
     method: "POST",
     body: formData
   });
@@ -889,7 +905,7 @@ window.openDeleteRequestForm = async function (soundId) {
   }
 
   try {
-    const res = await fetch('/delete-request', {
+    const res = await fetch(`${API_BASE_URL}/delete-request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -925,7 +941,7 @@ document.addEventListener('click', async function (e) {
   const soundId = likeButton.dataset.id;
 
   try {
-    const response = await fetch(`/api/sounds/${soundId}/like`, {
+    const response = await fetch(`${API_BASE_URL}/likes`, {
       method: 'POST'
     });
 

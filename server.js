@@ -1,3 +1,4 @@
+const cors = require("cors");
 const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 const ffmpegPath = require("ffmpeg-static");
@@ -18,7 +19,7 @@ const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
-
+app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
