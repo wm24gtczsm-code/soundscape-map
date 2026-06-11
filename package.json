@@ -15,6 +15,7 @@
     "multer": "^2.1.1"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "nodemon": "^3.1.14"
   }
 }

@@ -364,16 +364,36 @@ function addSoundMarker(soundData) {
 
 
 
+let audioContext = null;
+
+function getAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  return audioContext;
+}
+
 function getAudioForSound(soundObj) {
   if (!soundObj.audio) {
-    soundObj.audio = new Audio(soundObj.soundData.file);
-    soundObj.audio.loop = true;
-    soundObj.audio.preload = "metadata";
+    const audio = new Audio(soundObj.soundData.file);
+    audio.loop = true;
+    audio.preload = "metadata";
+    audio.crossOrigin = "anonymous";
+
+    const context = getAudioContext();
+    const source = context.createMediaElementSource(audio);
+    const gainNode = context.createGain();
+
+    source.connect(gainNode);
+    gainNode.connect(context.destination);
+
+    soundObj.audio = audio;
+    soundObj.gainNode = gainNode;
   }
 
   return soundObj.audio;
 }
-
 
 
 
@@ -542,6 +562,22 @@ async function uploadSoundAt(latlng) {
 let unlocked = false;
 
 
+
+function setGainSmooth(obj, volume, fadeTime = 0.4) {
+  if (!obj.gainNode || !audioContext) return;
+
+  const now = audioContext.currentTime;
+  const gain = obj.gainNode.gain;
+
+  gain.cancelScheduledValues(now);
+  gain.setValueAtTime(gain.value, now);
+  gain.linearRampToValueAtTime(volume, now + fadeTime);
+}
+
+
+
+
+
 //
 // ⑧ 音更新関数
 //
@@ -655,39 +691,47 @@ function updateSounds() {
     //
     // 再生条件
     //
-    if (visible && finalVolume > 0) {
 
 
-      //ここで音作る
-      const audio = getAudioForSound(obj);
+    function stopAudioWithFade(obj, fadeTime = 0.6) {
+      setGainSmooth(obj, 0, fadeTime);
 
-
-      //
-      // 音量反映
-      //
-      audio.volume = finalVolume;
-
-      //
-      // 停止中なら再生
-      //
-      if (audio.paused) {
-
-        audio.play();
-
+      if (obj.stopTimer) {
+        clearTimeout(obj.stopTimer);
       }
 
+      obj.stopTimer = setTimeout(() => {
+        if (obj.audio) {
+          obj.audio.pause();
+          obj.audio.currentTime = 0;
+        }
+
+        obj.stopTimer = null;
+      }, fadeTime * 1000);
     }
 
-    //
-    // 画面外 or 無音
-    //
-    else {
 
-      if (obj.audio) {
-        obj.audio.pause();
-        obj.audio.currentTime = 0;
+
+
+    const keepAliveZoom = 13;
+
+    if (visible && zoom >= keepAliveZoom) {
+      const audio = getAudioForSound(obj);
+
+      if (obj.stopTimer) {
+        clearTimeout(obj.stopTimer);
+        obj.stopTimer = null;
       }
 
+      setGainSmooth(obj, finalVolume);
+
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.log("音声再生に失敗:", obj.soundData.id, error);
+        });
+      }
+    } else {
+      stopAudioWithFade(obj);
     }
 
   });
@@ -699,14 +743,17 @@ function updateSounds() {
 // ⑨ 初回クリックで音解禁
 //
 
-map.once('click', () => {
-
+map.once('click', async () => {
   unlocked = true;
 
+  const context = getAudioContext();
+
+  if (context.state === "suspended") {
+    await context.resume();
+  }
+
   updateSounds();
-
 });
-
 
 //ズーム時と移動時
 
