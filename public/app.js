@@ -723,7 +723,13 @@ function updateSounds() {
         obj.stopTimer = null;
       }
 
-      setGainSmooth(obj, finalVolume);
+      const wasPaused = audio.paused;
+
+      if (wasPaused && obj.gainNode) {
+        obj.gainNode.gain.value = 0;
+      }
+
+      setGainSmooth(obj, finalVolume, wasPaused ? 0.6 : 0.2);
 
       if (audio.paused) {
         audio.play().catch(error => {
