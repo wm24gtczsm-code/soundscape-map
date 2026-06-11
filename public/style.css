@@ -372,7 +372,7 @@ body {
 
   /* スマホ版：レイヤー切り替えUIの位置 */
   .leaflet-control-layers {
-    margin-top: 80px !important;
+    margin-top: 110px !important;
   }
 
   /* ズーム・レイヤーボタン */
@@ -412,7 +412,7 @@ body {
 
 
   #maplogo {
-    top: 30px;
+    top: 60px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -421,7 +421,7 @@ body {
 
 
   #buttonContainer {
-    top: 140px;
+    top: 170px;
   }
 
 
@@ -431,7 +431,7 @@ body {
 
     left: 65px;
     right: 30px;
-    top: 80px;
+    top: 110px;
 
     padding: 14px;
     font-size: 15px;
@@ -540,7 +540,7 @@ body {
 
   /* スマホ検索窓 */
   .leaflet-control-geocoder {
-    top: 150px !important;
+    top: 180px !important;
     left: 70px !important;
 
     width: 220px !important;
