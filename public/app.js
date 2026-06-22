@@ -994,8 +994,8 @@ document.addEventListener('click', async function (e) {
   const soundId = likeButton.dataset.id;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/likes`, {
-      method: 'POST'
+    const response = await fetch(`${API_BASE_URL}/api/sounds/${soundId}/like`, {
+      method: "POST"
     });
 
     const data = await response.json();
